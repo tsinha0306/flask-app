@@ -5,7 +5,7 @@ from flask import Flask, render_template, send_file, request
 
 app = Flask(__name__)
 users_info = {}
-file_store_path = ""
+file_store_path = "/home/ubuntu/file_store"
 
 
 @app.route("/download/<username>/<filename>")
@@ -17,7 +17,7 @@ def download(username, filename):
 def display(user_info, file):
     wordcount = -1
     if len(file) > 0:
-        f = open(file, "r")
+        f = open(os.path.join(file_store_path, file), "r")
         data = f.read()
         dataword = data.split()
         wordcount = len(dataword)
@@ -60,10 +60,12 @@ def register():
     if request.method == "POST":
         if request.form["username"] in users_info:
             return "User exists, register with a different username"
+        if ' ' in request.form["username"]:
+            return "Username can't have spaces"
         file = request.files['file']
         username_dir = request.form["username"]
         if len(file.filename) > 0:
-            Path(username_dir).mkdir(exist_ok=True)
+            Path(os.path.join(file_store_path, username_dir)).mkdir(exist_ok=True)
             file.save(os.path.join(file_store_path, username_dir, file.filename))
         user_info = {
             "first_name": request.form['firstname'],
