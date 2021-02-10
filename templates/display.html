@@ -1,17 +1,23 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:display="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="UTF-8">
     <title>Display user information</title>
 </head>
 <body>
 <h3> User information: </h3>
-<h3>{{ first_name }}</h3>
-<h3>{{ last_name }}</h3>
-<h3>{{ email }}</h3>
-<h3>{{ user_name }}</h3>
-<h4>{{ wordcount }}</h4>
-<a href="/login">Login</a>
-<a name="download" class="btn btn-default" target="blank" href="/download/{{filename}}"> Download</a>
+<b>First Name : </b>   {{ first_name }} <br/>
+<b>Last Name : </b>  {{ last_name }} <br/>
+<b>Email ID : </b> {{ email }} <br/>
+<b>Wordcount :</b> {{ wordcount }} <br/>
+<div>
+<a href="/login">Login</a> <br/>
+    {% if filename == '' %}
+        <p> You didn't upload any file!</p>
+    {% else %}
+        <a name="download" class="btn btn-default" target="blank" href="/download/{{filename}}"> Download</a>
+    {% endif %}
+
+</div>
 </body>
 </html>
